@@ -3,7 +3,11 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" />
+          <img
+            src="https://bulma.io/images/bulma-logo.png"
+            width="112"
+            height="28"
+          />
         </a>
       </div>
       <div id="navbarBasicExample" class="navbar-menu">
@@ -13,7 +17,6 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <button>aaaa</button>
               <!-- ここにログインボタンを入れる -->
             </div>
           </div>
