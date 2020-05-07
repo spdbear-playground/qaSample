@@ -16,15 +16,15 @@
                   v-validateで指定した条件に合わない場合、errors.has('input.name')がtrueになる
                   classはオブジェクト構文で、valueがtrueであればkeyのclassが適用される -->
                 <input
+                  v-model="displayName"
+                  v-validate="'required|min:4'"
                   class="input"
                   type="text"
                   name="displayName"
-                  v-model="displayName"
-                  v-validate="'required|min:4'"
                   :class="{ 'is-danger': errors.has('displayName') }"
                 />
                 <p v-show="errors.has('displayName')" class="help is-danger">
-                  {{ errors.first("displayName") }}
+                  {{ errors.first('displayName') }}
                 </p>
               </div>
             </div>
@@ -32,15 +32,15 @@
               <label class="label">Email</label>
               <div class="control">
                 <input
+                  v-model="email"
+                  v-validate="'required|email'"
                   class="input"
                   type="email"
                   name="email"
-                  v-model="email"
-                  v-validate="'required|email'"
                   :class="{ 'is-danger': errors.has('email') }"
                 />
                 <p v-show="errors.has('email')" class="help is-danger">
-                  {{ errors.first("email") }}
+                  {{ errors.first('email') }}
                 </p>
               </div>
             </div>
@@ -49,15 +49,15 @@
 
               <div class="control">
                 <input
+                  v-model="password"
+                  v-validate="'required|min:6'"
                   class="input"
                   type="password"
                   name="password"
-                  v-model="password"
-                  v-validate="'required|min:6'"
                   :class="{ 'is-danger': errors.has('password') }"
                 />
                 <p v-show="errors.has('password')" class="help is-danger">
-                  {{ errors.first("password") }}
+                  {{ errors.first('password') }}
                 </p>
               </div>
             </div>
@@ -80,33 +80,33 @@
 </template>
 
 <script>
-import apiJobMixin from "@/mixins/apiJobMixin";
+import apiJobMixin from '@/mixins/apiJobMixin'
 export default {
+  mixins: [apiJobMixin],
   data() {
     return {
-      displayName: "",
-      email: "",
-      password: ""
-    };
+      displayName: '',
+      email: '',
+      password: ''
+    }
   },
-  mixins: [apiJobMixin],
   methods: {
     onSignUp() {
-      this.$validator.validateAll().then(result => {
+      this.$validator.validateAll().then((result) => {
         if (result) {
           const signUpData = {
             displayName: this.displayName,
             email: this.email,
             password: this.password
-          };
-          this.$store.dispatch("signUpUser", signUpData);
+          }
+          this.$store.dispatch('signUpUser', signUpData)
         }
-      });
+      })
     },
     jobsDone() {
-      this.removeErrors();
-      this.$router.replace("/");
+      this.removeErrors()
+      this.$router.replace('/')
     }
   }
-};
+}
 </script>

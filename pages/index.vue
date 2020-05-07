@@ -1,23 +1,31 @@
-
 <template>
   <div>
     <section class="section no-top pad">
       <div class="columns is-centered is-mobile">
-        <div v-if="isLogin" class="column is-half-desktop is-full-mobile is-full-tablet">
+        <div
+          v-if="isLogin"
+          class="column is-half-desktop is-full-mobile is-full-tablet"
+        >
           <form @submit.prevent="onQuestion">
             <div class="field">
               <label class="label">あなたの質問は？</label>
               <div class="control">
-                <textarea class="textarea" v-model="question" placeholder="質問を入力してください"></textarea>
+                <textarea
+                  v-model="question"
+                  class="textarea"
+                  placeholder="質問を入力してください"
+                ></textarea>
               </div>
             </div>
             <div class="field">
               <div class="control">
                 <button
                   class="button is-primary"
-                  :class="{'is-loading': busy}"
+                  :class="{ 'is-loading': busy }"
                   :disabled="busy"
-                >質問する</button>
+                >
+                  質問する
+                </button>
               </div>
             </div>
           </form>
@@ -26,6 +34,11 @@
       </div>
       <div class="is-centered is-mobile">
         <!-- ここに質問リストを入れる -->
+        <QuestionList
+          v-for="(q, index) in allQuestions"
+          :key="index"
+          :question="q"
+        />
       </div>
     </section>
   </div>
@@ -33,13 +46,19 @@
 
 <script>
 import apiJobMixin from "@/mixins/apiJobMixin";
+import QuestionList from "@/components/QuestionList";
+
 export default {
   data() {
     return {
-      question: ""
+      question: "",
+      questions: []
     };
   },
   mixins: [apiJobMixin],
+  components: {
+    QuestionList
+  },
   methods: {
     onQuestion() {
       let userID = this.$store.getters.user.id;
@@ -52,6 +71,17 @@ export default {
     jobsDone() {
       console.log("job done");
     }
+  },
+  computed: {
+    allQuestions() {
+      return this.$store.getters["question/questionsAll"];
+    }
+  },
+  async fetch({ app, store }) {
+    if (store.getters["question/questionsAll"].length > 0) {
+      return;
+    }
+    await store.dispatch("question/fetchQuestionsAll");
   }
 };
 </script>

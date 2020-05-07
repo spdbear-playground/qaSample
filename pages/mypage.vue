@@ -5,8 +5,8 @@
       <hr />
       <div class="is-centered is-mobile">
         <div class="box">
-          <p>{{user.name}}</p>
-          <p>{{user.email}}</p>
+          <p>{{ user.name }}</p>
+          <p>{{ user.email }}</p>
         </div>
         <p class="button is-outlined" @click="logOut">ログアウト</p>
       </div>
@@ -15,22 +15,22 @@
 </template>
 <script>
 export default {
-  methods: {
-    logOut() {
-      this.$store.dispatch("logOut");
-      this.$router.push("/");
-    }
-  },
   computed: {
     user() {
       if (this.$store.getters.user) {
-        return this.$store.getters.user;
+        return this.$store.getters.user
       }
       return {
-        name: "",
-        email: ""
-      };
+        name: '',
+        email: ''
+      }
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('logOut')
+      this.$router.push('/')
     }
   }
-};
+}
 </script>

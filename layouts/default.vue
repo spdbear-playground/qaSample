@@ -51,18 +51,6 @@
 <script>
 import { mapMutations } from "vuex";
 export default {
-  created() {
-    this.$fireApp.auth().onAuthStateChanged(user => {
-      if (user) {
-        const authUser = {
-          id: user.uid,
-          email: user.email,
-          name: user.displayName
-        };
-        this.setUser(authUser);
-      }
-    });
-  },
   computed: {
     isLogin() {
       const loggedIn = this.$store.getters.loginStatus;
@@ -75,6 +63,18 @@ export default {
     userName() {
       return this.$store.getters.user ? this.$store.getters.user.name : "";
     }
+  },
+  created() {
+    this.$fireApp.auth().onAuthStateChanged(user => {
+      if (user) {
+        const authUser = {
+          id: user.uid,
+          email: user.email,
+          name: user.displayName
+        };
+        this.setUser(authUser);
+      }
+    });
   },
   methods: {
     ...mapMutations({

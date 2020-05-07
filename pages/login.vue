@@ -13,14 +13,16 @@
               <label class="label">Email</label>
               <div class="control">
                 <input
+                  v-model="email"
+                  v-validate="'required|email'"
                   class="input"
                   type="email"
                   name="email"
-                  v-model="email"
-                  v-validate="'required|email'"
                   :class="{ 'is-danger': errors.has('email') }"
                 />
-                <p v-show="errors.has('email')" class="help is-danger">{{ errors.first("email") }}</p>
+                <p v-show="errors.has('email')" class="help is-danger">
+                  {{ errors.first('email') }}
+                </p>
               </div>
             </div>
             <div class="field">
@@ -28,17 +30,16 @@
 
               <div class="control">
                 <input
+                  v-model="password"
+                  v-validate="'required|min:6'"
                   class="input"
                   type="password"
                   name="password"
-                  v-model="password"
-                  v-validate="'required|min:6'"
                   :class="{ 'is-danger': errors.has('password') }"
                 />
-                <p
-                  v-show="errors.has('password')"
-                  class="help is-danger"
-                >{{ errors.first("password") }}</p>
+                <p v-show="errors.has('password')" class="help is-danger">
+                  {{ errors.first('password') }}
+                </p>
               </div>
             </div>
             <div class="field">
@@ -47,7 +48,9 @@
                   class="button is-primary"
                   :class="{ 'is-loading': busy }"
                   :disabled="busy"
-                >Login</button>
+                >
+                  Login
+                </button>
               </div>
             </div>
           </form>
@@ -58,38 +61,37 @@
 </template>
 
 <script>
-import apiJobMixin from "@/mixins/apiJobMixin";
+import apiJobMixin from '@/mixins/apiJobMixin'
 export default {
+  mixins: [apiJobMixin],
   data() {
     return {
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   },
-
-  mixins: [apiJobMixin],
   beforeCreate() {
-    const loggedIn = this.$store.getters.loginStatus;
+    const loggedIn = this.$store.getters.loginStatus
     if (loggedIn) {
-      this.$router.replace("/");
+      this.$router.replace('/')
     }
   },
   methods: {
     onLogin() {
-      this.$validator.validateAll().then(result => {
+      this.$validator.validateAll().then((result) => {
         if (result) {
           const loginData = {
             email: this.email,
             password: this.password
-          };
-          this.$store.dispatch("loginUser", loginData);
+          }
+          this.$store.dispatch('loginUser', loginData)
         }
-      });
+      })
     },
     jobsDone() {
-      this.removeErrors();
-      this.$router.replace("/");
+      this.removeErrors()
+      this.$router.replace('/')
     }
   }
-};
+}
 </script>
