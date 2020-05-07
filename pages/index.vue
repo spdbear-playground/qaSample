@@ -1,41 +1,59 @@
+
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        qaSample
-      </h1>
-      <h2 class="subtitle">
-        My cool Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div>
+    <section class="section no-top pad">
+      <div class="columns is-centered is-mobile">
+        <div v-if="isLogin" class="column is-half-desktop is-full-mobile is-full-tablet">
+          <form @submit.prevent="onQuestion">
+            <div class="field">
+              <label class="label">あなたの質問は？</label>
+              <div class="control">
+                <textarea class="textarea" v-model="question" placeholder="質問を入力してください"></textarea>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <button
+                  class="button is-primary"
+                  :class="{'is-loading': busy}"
+                  :disabled="busy"
+                >質問する</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div v-else>アカウントを作成して質問をしましょう！</div>
       </div>
-    </div>
+      <div class="is-centered is-mobile">
+        <!-- ここに質問リストを入れる -->
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import apiJobMixin from "@/mixins/apiJobMixin";
 export default {
-  components: {
-    Logo
+  data() {
+    return {
+      question: ""
+    };
+  },
+  mixins: [apiJobMixin],
+  methods: {
+    onQuestion() {
+      let userID = this.$store.getters.user.id;
+      const payload = {
+        question: this.question,
+        userId: userID
+      };
+      this.$store.dispatch("question/addQuestion", payload);
+    },
+    jobsDone() {
+      console.log("job done");
+    }
   }
-}
+};
 </script>
 
 <style>
@@ -49,8 +67,8 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;

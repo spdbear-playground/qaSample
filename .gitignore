@@ -93,3 +93,4 @@ sw.*
 plugins/firebase.js
 .firebaserc
 .firebase/
+*.gif
