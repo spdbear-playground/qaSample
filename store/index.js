@@ -65,7 +65,7 @@ export const actions = {
       .then(() => {
         // ユーザーをデータベース(Firestore)に登録
         // (主にデータ⽤)
-        let userRef = db.collection("users").doc(newUser.uid);
+        let userRef = db.collection("users").doc(newUser.uid); //ここでしかnewUser使ってないの謎
         return userRef.set({
           email: payload.email,
           name: payload.displayName,
@@ -76,6 +76,36 @@ export const actions = {
         commit("setBusy", false);
         commit("setError", error);
       });
+  },
+  loginUser({
+    commit
+  }, payload) {
+    commit("setBusy", true);
+    commit("clearError");
+    this.$fireApp
+      .auth()
+      .signInWithEmailAndPassword(payload.email, payload.password)
+      .then(data => {
+        const authUser = {
+          id: data.user.uid,
+          email: data.user.email,
+          name: data.user.displayName
+        };
+        commit("setUser", authUser);
+        commit("setJobDone", true);
+        commit("setBusy", false);
+
+      })
+      .catch(error => {
+        commit("setBusy", false);
+        commit("setError", error);
+      });
+  },
+  logOut({
+    commit
+  }) {
+    this.$fireApp.auth().signOut();
+    commit("setUser", null);
   }
 };
 
