@@ -6,8 +6,8 @@
       <div class="columns is-centered is-mobile">
         <div class="column is-half-desktop is-full-mobile is-full-tablet">
           <!-- @submit は v-on:submitのこと
-               .preventはイベント修飾子で、Event.preventDefault()が呼び出される
-               ここではsubmit標準の意図しない画面遷移、画面更新を避けるのが目的-->
+          .preventはイベント修飾子で、Event.preventDefault()が呼び出される
+          ここではsubmit標準の意図しない画面遷移、画面更新を避けるのが目的-->
           <form @submit.prevent="onSignUp">
             <div class="field">
               <label class="label">Name</label>

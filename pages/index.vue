@@ -45,45 +45,45 @@
 </template>
 
 <script>
-import apiJobMixin from "@/mixins/apiJobMixin";
-import QuestionList from "@/components/QuestionList";
+import apiJobMixin from '@/mixins/apiJobMixin'
+import QuestionList from '@/components/QuestionList'
 
 export default {
-  data() {
-    return {
-      question: "",
-      questions: []
-    };
-  },
-  mixins: [apiJobMixin],
   components: {
     QuestionList
   },
-  methods: {
-    onQuestion() {
-      let userID = this.$store.getters.user.id;
-      const payload = {
-        question: this.question,
-        userId: userID
-      };
-      this.$store.dispatch("question/addQuestion", payload);
-    },
-    jobsDone() {
-      console.log("job done");
+  mixins: [apiJobMixin],
+  data() {
+    return {
+      question: '',
+      questions: []
     }
   },
   computed: {
     allQuestions() {
-      return this.$store.getters["question/questionsAll"];
+      return this.$store.getters['question/questionsAll']
+    }
+  },
+  methods: {
+    onQuestion() {
+      const userID = this.$store.getters.user.id
+      const payload = {
+        question: this.question,
+        userId: userID
+      }
+      this.$store.dispatch('question/addQuestion', payload)
+    },
+    jobsDone() {
+      console.log('job done')
     }
   },
   async fetch({ app, store }) {
-    if (store.getters["question/questionsAll"].length > 0) {
-      return;
+    if (store.getters['question/questionsAll'].length > 0) {
+      return
     }
-    await store.dispatch("question/fetchQuestionsAll");
+    await store.dispatch('question/fetchQuestionsAll')
   }
-};
+}
 </script>
 
 <style>
@@ -97,8 +97,8 @@ export default {
 }
 
 .title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;

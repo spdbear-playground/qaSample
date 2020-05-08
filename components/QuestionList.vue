@@ -13,7 +13,7 @@
           <p>
             <strong>@{{ question.user.name }}</strong>
             <small>{{
-              this.$moment(question.createdAt).format("YYYY.MM.DD - h:mm a")
+              this.$moment(question.createdAt).format('YYYY.MM.DD - h:mm a')
             }}</small>
           </p>
         </div>
@@ -28,13 +28,14 @@
 export default {
   props: {
     question: {
-      type: Object
+      type: Object,
+      required: true
     }
   },
   data() {
     return {
-      questionTitle: ""
-    };
+      questionTitle: ''
+    }
   }
-};
+}
 </script>
