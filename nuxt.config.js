@@ -40,7 +40,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/firebase', '@/plugins/vee-validate', '@/plugins/moment'],
+  plugins: [
+    '@/plugins/firebase',
+    '@/plugins/vee-validate',
+    '@/plugins/moment',
+    '@/plugins/uniqStr'
+  ],
 
   /*
    ** Nuxt.js dev-modules
