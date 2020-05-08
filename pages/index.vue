@@ -53,6 +53,12 @@ export default {
     QuestionList
   },
   mixins: [apiJobMixin],
+  async fetch({ _, store }) {
+    if (store.getters['question/questionsAll'].length > 0) {
+      return
+    }
+    await store.dispatch('question/fetchQuestionsAll')
+  },
   data() {
     return {
       question: '',
@@ -76,12 +82,6 @@ export default {
     jobsDone() {
       console.log('job done')
     }
-  },
-  async fetch({ app, store }) {
-    if (store.getters['question/questionsAll'].length > 0) {
-      return
-    }
-    await store.dispatch('question/fetchQuestionsAll')
   }
 }
 </script>
