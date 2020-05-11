@@ -17,5 +17,7 @@
     "nuxt": "^2.0.0",
     "vee-validate": "^2.2.15"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint-config-prettier": "^6.11.0"
+  }
 }

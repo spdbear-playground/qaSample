@@ -29,6 +29,12 @@
         <div class="media-content">
           <div class="content">
             <!-- ここに回答が入る -->
+            <AnswerList
+              v-for="(a, index) in allAnswers"
+              :key="index"
+              :answer="a"
+              :question-id="question.id"
+            />
           </div>
         </div>
       </article>
@@ -61,13 +67,18 @@
 
 <script>
 import apiJobMixin from '@/mixins/apiJobMixin'
+import AnswerList from '@/components/AnswerList'
 export default {
+  components: {
+    AnswerList
+  },
   mixins: [apiJobMixin],
   async fetch({ app, route, store }) {
     // URLから質問IDを取得
     const questionId = route.params.id
     // アクションにdispatch
     await store.dispatch('question/fetchQuestion', questionId)
+    await store.dispatch('answer/fetchAnswersAll', questionId)
   },
   data() {
     return {
@@ -77,6 +88,9 @@ export default {
   computed: {
     question() {
       return this.$store.getters['question/question']
+    },
+    allAnswers() {
+      return this.$store.getters['answer/answersAll']
     }
   },
   methods: {
