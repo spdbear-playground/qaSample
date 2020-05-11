@@ -66,6 +66,49 @@ export const actions = {
       })
     }
     commit('setAnswersAll', storeData)
+  },
+  async updateAnswer({ commit, state, dispatch }, payload) {
+    commit('setBusy', true, { root: true })
+    commit('clearError', null, { root: true })
+    const db = this.$fireApp.firestore()
+
+    const docRef = await db.collection('answers').doc(payload.questionId)
+    await docRef
+      .get()
+      .then((doc) => {
+        const data = doc.data().answer
+        data[payload.answerId] = {
+          ...data[payload.answerId],
+          title: payload.updateText,
+          updateAt: new Date().toISOString()
+        }
+        docRef.update({ answer: data })
+      })
+      .then(() => {
+        console.log('Document successfully updated!')
+        commit('setBusy', false, { root: true })
+        commit('setJobDone', true, { root: true })
+      })
+    dispatch('fetchAnswersAll', payload.questionId)
+  },
+  async removeAnswer({ commit, state, dispatch }, payload) {
+    commit('setBusy', true, { root: true })
+    commit('clearError', null, { root: true })
+    const db = this.$fireApp.firestore()
+    const docRef = await db.collection('answers').doc(payload.questionId)
+    await docRef
+      .get()
+      .then((doc) => {
+        const data = doc.data().answer
+        delete data[payload.answerId]
+        docRef.update({ answer: data })
+      })
+      .then(() => {
+        console.log('Document successfully removed!')
+        commit('setBusy', false, { root: true })
+        commit('setJobDone', true, { root: true })
+      })
+    dispatch('fetchAnswersAll', payload.questionId)
   }
 }
 
