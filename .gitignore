@@ -94,3 +94,7 @@ plugins/firebase.js
 .firebaserc
 .firebase/
 *.gif
+
+# deploy files
+functions/nuxt
+public/assets
