@@ -73,7 +73,7 @@ export default {
     AnswerList
   },
   mixins: [apiJobMixin],
-  async fetch({ app, route, store }) {
+  async fetch({ _, route, store }) {
     // URLから質問IDを取得
     const questionId = route.params.id
     // アクションにdispatch
@@ -102,7 +102,7 @@ export default {
       })
     },
     jobsDone() {
-      console.log('job done')
+      // console.log('job done')
     }
   }
 }

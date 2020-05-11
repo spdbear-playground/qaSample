@@ -9,7 +9,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async addAnswer({ commit, state, dispatch }, payload) {
+  async addAnswer({ commit, _state, dispatch }, payload) {
     commit('setBusy', true, { root: true })
     commit('clearError', null, { root: true })
     const db = this.$fireApp.firestore()
@@ -32,7 +32,7 @@ export const actions = {
       })
       .catch((error) => console.log(error))
   },
-  async fetchAnswersAll({ commit, state }, questionId) {
+  async fetchAnswersAll({ commit, _state }, questionId) {
     const db = this.$fireApp.firestore()
     // 登録した全データを取得
     const answers = []
@@ -67,7 +67,7 @@ export const actions = {
     }
     commit('setAnswersAll', storeData)
   },
-  async updateAnswer({ commit, state, dispatch }, payload) {
+  async updateAnswer({ commit, _state, dispatch }, payload) {
     commit('setBusy', true, { root: true })
     commit('clearError', null, { root: true })
     const db = this.$fireApp.firestore()
@@ -91,7 +91,7 @@ export const actions = {
       })
     dispatch('fetchAnswersAll', payload.questionId)
   },
-  async removeAnswer({ commit, state, dispatch }, payload) {
+  async removeAnswer({ commit, _state, dispatch }, payload) {
     commit('setBusy', true, { root: true })
     commit('clearError', null, { root: true })
     const db = this.$fireApp.firestore()

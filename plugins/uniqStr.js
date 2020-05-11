@@ -7,6 +7,6 @@ const getUniqueStr = (myStrong) => {
   )
 }
 
-export default (context, inject) => {
+export default (_context, inject) => {
   inject('uniqStr', getUniqueStr)
 }

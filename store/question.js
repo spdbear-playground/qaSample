@@ -13,7 +13,7 @@ export const mutations = {
 }
 
 export const actions = {
-  addQuestion({ commit, state, dispatch }, payload) {
+  addQuestion({ commit, _state, dispatch }, payload) {
     commit('setBusy', true, {
       root: true
     })
@@ -34,7 +34,7 @@ export const actions = {
         commit('setJobDone', true, { root: true })
       })
   },
-  async fetchQuestionsAll({ commit, state }, payload) {
+  async fetchQuestionsAll({ commit, _state }, _payload) {
     const db = this.$fireApp.firestore()
 
     // 登録した全データを管理
@@ -68,7 +68,7 @@ export const actions = {
     }
     commit('setQuestionsAll', storeData)
   },
-  async updateQuestion({ commit, state, dispatch }, payload) {
+  async updateQuestion({ commit, _state, dispatch }, payload) {
     const db = this.$fireApp.firestore()
     await db
       .collection('questions')
@@ -84,7 +84,7 @@ export const actions = {
       })
     dispatch('fetchQuestionsAll')
   },
-  async removeQuestion({ commit, state, dispatch }, payload) {
+  async removeQuestion({ commit, _state, dispatch }, payload) {
     commit('setBusy', true, { root: true })
     commit('clearError', null, { root: true })
     const db = this.$fireApp.firestore()
@@ -108,7 +108,7 @@ export const actions = {
       })
     dispatch('fetchQuestionsAll')
   },
-  async fetchQuestion({ commit, state }, questionId) {
+  async fetchQuestion({ commit, _state }, questionId) {
     const db = this.$fireApp.firestore()
     const querySnapshot = await db
       .collection('questions')
