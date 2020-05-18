@@ -12,7 +12,7 @@
               <small>
                 {{
                   this.$moment(question.createdAt).format(
-                    'YYYY.MM.DD - hh:mm a'
+                    "YYYY.MM.DD - hh:mm a"
                   )
                 }}
               </small>
@@ -65,9 +65,9 @@
   </section>
 </template>
 
-<script>
-import apiJobMixin from '@/mixins/apiJobMixin'
-import AnswerList from '@/components/AnswerList'
+<script lang="ts">
+import apiJobMixin from "@/mixins/apiJobMixin";
+import AnswerList from "@/components/AnswerList.vue";
 export default {
   components: {
     AnswerList
@@ -75,35 +75,35 @@ export default {
   mixins: [apiJobMixin],
   async fetch({ _, route, store }) {
     // URLから質問IDを取得
-    const questionId = route.params.id
+    const questionId = route.params.id;
     // アクションにdispatch
-    await store.dispatch('question/fetchQuestion', questionId)
-    await store.dispatch('answer/fetchAnswersAll', questionId)
+    await store.dispatch("question/fetchQuestion", questionId);
+    await store.dispatch("answer/fetchAnswersAll", questionId);
   },
   data() {
     return {
-      answer: ''
-    }
+      answer: ""
+    };
   },
   computed: {
     question() {
-      return this.$store.getters['question/question']
+      return this.$store.getters["question/question"];
     },
     allAnswers() {
-      return this.$store.getters['answer/answersAll']
+      return this.$store.getters["answer/answersAll"];
     }
   },
   methods: {
     onAnswer() {
-      this.$store.dispatch('answer/addAnswer', {
+      this.$store.dispatch("answer/addAnswer", {
         answer: this.answer,
         userId: this.$store.getters.user.id,
         questionId: this.question.id
-      })
+      });
     },
     jobsDone() {
       // console.log('job done')
     }
   }
-}
+};
 </script>

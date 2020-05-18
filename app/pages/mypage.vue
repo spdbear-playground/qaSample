@@ -13,24 +13,24 @@
     </section>
   </div>
 </template>
-<script>
+<script lang="ts">
 export default {
   computed: {
     user() {
       if (this.$store.getters.user) {
-        return this.$store.getters.user
+        return this.$store.getters.user;
       }
       return {
-        name: '',
-        email: ''
-      }
+        name: "",
+        email: ""
+      };
     }
   },
   methods: {
     logOut() {
-      this.$store.dispatch('logOut')
-      this.$router.push('/')
+      this.$store.dispatch("logOut");
+      this.$router.push("/");
     }
   }
-}
+};
 </script>

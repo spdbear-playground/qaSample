@@ -21,7 +21,7 @@
                   :class="{ 'is-danger': errors.has('email') }"
                 />
                 <p v-show="errors.has('email')" class="help is-danger">
-                  {{ errors.first('email') }}
+                  {{ errors.first("email") }}
                 </p>
               </div>
             </div>
@@ -38,7 +38,7 @@
                   :class="{ 'is-danger': errors.has('password') }"
                 />
                 <p v-show="errors.has('password')" class="help is-danger">
-                  {{ errors.first('password') }}
+                  {{ errors.first("password") }}
                 </p>
               </div>
             </div>
@@ -60,38 +60,38 @@
   </div>
 </template>
 
-<script>
-import apiJobMixin from '@/mixins/apiJobMixin'
+<script lang="ts">
+import apiJobMixin from "@/mixins/apiJobMixin";
 export default {
   mixins: [apiJobMixin],
   data() {
     return {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: ""
+    };
   },
   beforeCreate() {
-    const loggedIn = this.$store.getters.loginStatus
+    const loggedIn = this.$store.getters.loginStatus;
     if (loggedIn) {
-      this.$router.replace('/')
+      this.$router.replace("/");
     }
   },
   methods: {
     onLogin() {
-      this.$validator.validateAll().then((result) => {
+      this.$validator.validateAll().then(result => {
         if (result) {
           const loginData = {
             email: this.email,
             password: this.password
-          }
-          this.$store.dispatch('loginUser', loginData)
+          };
+          this.$store.dispatch("loginUser", loginData);
         }
-      })
+      });
     },
     jobsDone() {
-      this.removeErrors()
-      this.$router.replace('/')
+      this.removeErrors();
+      this.$router.replace("/");
     }
   }
-}
+};
 </script>
