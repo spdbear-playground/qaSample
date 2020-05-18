@@ -50,7 +50,8 @@
 
 <script lang="ts">
 import { mapMutations } from "vuex";
-export default {
+import Vue from "vue";
+export default Vue.extend({
   computed: {
     isLogin() {
       const loggedIn = this.$store.getters.loginStatus;
@@ -81,7 +82,7 @@ export default {
       setUser: "setUser"
     })
   }
-};
+});
 </script>
 
 <style>

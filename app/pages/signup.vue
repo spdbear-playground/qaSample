@@ -80,14 +80,15 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import apiJobMixin from "@/mixins/apiJobMixin";
-export default {
+export default Vue.extend({
   mixins: [apiJobMixin],
   data() {
     return {
-      displayName: "",
-      email: "",
-      password: ""
+      displayName: "" as string,
+      email: "" as string,
+      password: "" as string
     };
   },
   methods: {
@@ -108,5 +109,5 @@ export default {
       this.$router.replace("/");
     }
   }
-};
+});
 </script>

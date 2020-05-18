@@ -10,11 +10,6 @@
     "strict": true,
     "noEmit": true,
     "noImplicitAny": false,
-    "strictNullChecks": false,
-    "strictFunctionTypes": false,
-    "strictBindCallApply": false,
-    "strictPropertyInitialization": false,
-    "noImplicitThis": false,
     "baseUrl": "./app",
     "paths": {
       "~/*": ["./*"],

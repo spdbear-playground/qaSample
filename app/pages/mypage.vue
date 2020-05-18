@@ -14,15 +14,16 @@
   </div>
 </template>
 <script lang="ts">
-export default {
+import Vue from "vue";
+export default Vue.extend({
   computed: {
     user() {
       if (this.$store.getters.user) {
         return this.$store.getters.user;
       }
       return {
-        name: "",
-        email: ""
+        name: "" as string,
+        email: "" as string
       };
     }
   },
@@ -32,5 +33,5 @@ export default {
       this.$router.push("/");
     }
   }
-};
+});
 </script>

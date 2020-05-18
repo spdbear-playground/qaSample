@@ -93,7 +93,8 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from "vue";
+export default Vue.extend({
   props: {
     question: {
       type: Object,
@@ -102,9 +103,9 @@ export default {
   },
   data() {
     return {
-      questionTitle: "",
-      removeModalActive: false,
-      editModalActive: false
+      questionTitle: "" as string,
+      removeModalActive: false as boolean,
+      editModalActive: false as boolean
     };
   },
   computed: {
@@ -135,5 +136,5 @@ export default {
       this.toggleEditModal();
     }
   }
-};
+});
 </script>

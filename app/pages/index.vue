@@ -47,13 +47,13 @@
 <script lang="ts">
 import apiJobMixin from "@/mixins/apiJobMixin";
 import QuestionList from "@/components/QuestionList.vue";
-
-export default {
+import Vue from "vue";
+export default Vue.extend({
   components: {
     QuestionList
   },
   mixins: [apiJobMixin],
-  async fetch({ _, store }) {
+  async fetch({ store }) {
     if (store.getters["question/questionsAll"].length > 0) {
       return;
     }
@@ -61,7 +61,7 @@ export default {
   },
   data() {
     return {
-      question: "",
+      question: "" as string,
       questions: []
     };
   },
@@ -83,7 +83,7 @@ export default {
       console.log("job done");
     }
   }
-};
+});
 </script>
 
 <style>

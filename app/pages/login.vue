@@ -61,13 +61,14 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import apiJobMixin from "@/mixins/apiJobMixin";
-export default {
+export default Vue.extend({
   mixins: [apiJobMixin],
   data() {
     return {
       email: "",
-      password: ""
+      password: "" as string
     };
   },
   beforeCreate() {
@@ -93,5 +94,5 @@ export default {
       this.$router.replace("/");
     }
   }
-};
+});
 </script>

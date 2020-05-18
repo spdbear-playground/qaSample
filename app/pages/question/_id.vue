@@ -68,12 +68,13 @@
 <script lang="ts">
 import apiJobMixin from "@/mixins/apiJobMixin";
 import AnswerList from "@/components/AnswerList.vue";
-export default {
+import Vue from "vue";
+export default Vue.extend({
   components: {
     AnswerList
   },
   mixins: [apiJobMixin],
-  async fetch({ _, route, store }) {
+  async fetch({ route, store }) {
     // URLから質問IDを取得
     const questionId = route.params.id;
     // アクションにdispatch
@@ -82,7 +83,7 @@ export default {
   },
   data() {
     return {
-      answer: ""
+      answer: "" as string
     };
   },
   computed: {
@@ -105,5 +106,5 @@ export default {
       // console.log('job done')
     }
   }
-};
+});
 </script>
