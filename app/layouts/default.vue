@@ -48,46 +48,46 @@
   </div>
 </template>
 
-<script>
-import { mapMutations } from 'vuex'
+<script lang="ts">
+import { mapMutations } from "vuex";
 export default {
   computed: {
     isLogin() {
-      const loggedIn = this.$store.getters.loginStatus
+      const loggedIn = this.$store.getters.loginStatus;
       if (loggedIn) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     },
     userName() {
-      return this.$store.getters.user ? this.$store.getters.user.name : ''
+      return this.$store.getters.user ? this.$store.getters.user.name : "";
     }
   },
   created() {
-    this.$fireApp.auth().onAuthStateChanged((user) => {
+    this.$fireApp.auth().onAuthStateChanged(user => {
       if (user) {
         const authUser = {
           id: user.uid,
           email: user.email,
           name: user.displayName
-        }
-        this.setUser(authUser)
+        };
+        this.setUser(authUser);
       }
-    })
+    });
   },
   methods: {
     ...mapMutations({
-      setUser: 'setUser'
+      setUser: "setUser"
     })
   }
-}
+};
 </script>
 
 <style>
 html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;

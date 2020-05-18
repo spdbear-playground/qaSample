@@ -4,7 +4,7 @@
     <br />
     <small>{{ answer.user && answer.user.name }}</small>
     <small>{{
-      this.$moment(answer.createdAt).format('YYYY.MM.DD - h:mm a')
+      this.$moment(answer.createdAt).format("YYYY.MM.DD - h:mm a")
     }}</small>
     <!-- ここに編集・削除ボタンが入る -->
     <span v-if="isLoginUser" class="level-left buttons">
@@ -24,7 +24,7 @@
             class="button is-danger"
             @click="
               () => {
-                removeAnswer(questionId, answer.id)
+                removeAnswer(questionId, answer.id);
               }
             "
           >
@@ -55,7 +55,7 @@
             class="button is-primary"
             @click="
               () => {
-                updateAnswer(questionId, answer.id, answerTitle)
+                updateAnswer(questionId, answer.id, answerTitle);
               }
             "
           >
@@ -72,7 +72,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   props: {
     answer: {
@@ -86,37 +86,37 @@ export default {
     return {
       removeModalActive: false,
       editModalActive: false,
-      answerTitle: ''
-    }
+      answerTitle: ""
+    };
   },
   computed: {
     isLoginUser() {
-      if (!this.$store.getters.user) return false
-      return this.$store.getters.user.id === this.answer.user.id
+      if (!this.$store.getters.user) return false;
+      return this.$store.getters.user.id === this.answer.user.id;
     }
   },
   methods: {
     toggleRemoveModal() {
-      this.removeModalActive = !this.removeModalActive
+      this.removeModalActive = !this.removeModalActive;
     },
     toggleEditModal() {
-      this.editModalActive = !this.editModalActive
+      this.editModalActive = !this.editModalActive;
     },
     removeAnswer(questionId, answerId) {
-      this.$store.dispatch('answer/removeAnswer', {
+      this.$store.dispatch("answer/removeAnswer", {
         questionId,
         answerId
-      })
-      this.toggleRemoveModal()
+      });
+      this.toggleRemoveModal();
     },
     updateAnswer(questionId, answerId, updateText) {
-      this.$store.dispatch('answer/updateAnswer', {
+      this.$store.dispatch("answer/updateAnswer", {
         questionId,
         answerId,
         updateText
-      })
-      this.toggleEditModal()
+      });
+      this.toggleEditModal();
     }
   }
-}
+};
 </script>

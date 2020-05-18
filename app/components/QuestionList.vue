@@ -14,7 +14,7 @@
             <strong>@{{ question.user.name }}</strong>
             <small>
               {{
-                this.$moment(question.createdAt).format('YYYY.MM.DD - h:mm a')
+                this.$moment(question.createdAt).format("YYYY.MM.DD - h:mm a")
               }}
             </small>
           </p>
@@ -43,7 +43,7 @@
             class="button is-danger"
             @click="
               () => {
-                removeQuestion(question.id)
+                removeQuestion(question.id);
               }
             "
           >
@@ -75,7 +75,7 @@
             class="button is-primary"
             @click="
               () => {
-                updateQuestion(question.id, questionTitle)
+                updateQuestion(question.id, questionTitle);
               }
             "
           >
@@ -92,7 +92,7 @@
   </article>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   props: {
     question: {
@@ -102,38 +102,38 @@ export default {
   },
   data() {
     return {
-      questionTitle: '',
+      questionTitle: "",
       removeModalActive: false,
       editModalActive: false
-    }
+    };
   },
   computed: {
     isQuestionUser() {
       if (!this.$store.getters.user) {
-        return false
+        return false;
       }
-      return this.$store.getters.user.id === this.question.user.id
+      return this.$store.getters.user.id === this.question.user.id;
     }
   },
   methods: {
     toggleRemoveModal() {
-      this.removeModalActive = !this.removeModalActive
+      this.removeModalActive = !this.removeModalActive;
     },
     toggleEditModal() {
-      this.questionTitle = this.question.title
-      this.editModalActive = !this.editModalActive
+      this.questionTitle = this.question.title;
+      this.editModalActive = !this.editModalActive;
     },
     removeQuestion(id) {
-      this.$store.dispatch('question/removeQuestion', id)
-      this.toggleRemoveModal()
+      this.$store.dispatch("question/removeQuestion", id);
+      this.toggleRemoveModal();
     },
     updateQuestion(id, updateText) {
-      this.$store.dispatch('question/updateQuestion', {
+      this.$store.dispatch("question/updateQuestion", {
         id,
         updateText
-      })
-      this.toggleEditModal()
+      });
+      this.toggleEditModal();
     }
   }
-}
+};
 </script>
