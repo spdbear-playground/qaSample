@@ -5,12 +5,13 @@
   "author": "spdbear",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts build",
+    "generate": "nuxt-ts generate",
+    "start": "nuxt-ts start"
   },
   "dependencies": {
+    "@nuxt/typescript-runtime": "^0.4.7",
     "@nuxtjs/bulma": "^1.2.1",
     "firebase": "^7.14.2",
     "moment": "^2.25.3",
