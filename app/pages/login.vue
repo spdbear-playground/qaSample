@@ -67,7 +67,7 @@ export default Vue.extend({
   mixins: [apiJobMixin],
   data() {
     return {
-      email: "",
+      email: "" as string,
       password: "" as string
     };
   },
