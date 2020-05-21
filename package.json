@@ -16,6 +16,7 @@
     "firebase": "^7.14.2",
     "moment": "^2.25.3",
     "nuxt": "^2.0.0",
+    "nuxt-typed-vuex": "^0.1.18",
     "vee-validate": "^2.2.15"
   },
   "devDependencies": {

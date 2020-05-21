@@ -51,7 +51,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ["@nuxt/typescript-build"],
+  buildModules: ["@nuxt/typescript-build", "nuxt-typed-vuex"],
   /*
    ** Nuxt.js modules
    */
@@ -63,6 +63,7 @@ export default {
    ** Build configuration
    */
   build: {
+    transpile: [/typed-vuex/],
     postcss: {
       preset: {
         features: {
