@@ -63,12 +63,16 @@
 <script lang="ts">
 import Vue from "vue";
 import apiJobMixin from "@/mixins/apiJobMixin";
+type Data = {
+  email: string;
+  password: string;
+};
 export default Vue.extend({
   mixins: [apiJobMixin],
-  data() {
+  data(): { email: string; password: string } {
     return {
-      email: "" as string,
-      password: "" as string
+      email: "",
+      password: ""
     };
   },
   beforeCreate() {

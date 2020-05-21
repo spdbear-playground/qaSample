@@ -59,9 +59,9 @@ export default Vue.extend({
     }
     await store.dispatch("question/fetchQuestionsAll");
   },
-  data() {
+  data(): { question: string; questions: string[] } {
     return {
-      question: "" as string,
+      question: "",
       questions: []
     };
   },

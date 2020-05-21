@@ -81,9 +81,9 @@ export default Vue.extend({
     await store.dispatch("question/fetchQuestion", questionId);
     await store.dispatch("answer/fetchAnswersAll", questionId);
   },
-  data() {
+  data(): { answer: string } {
     return {
-      answer: "" as string
+      answer: ""
     };
   },
   computed: {

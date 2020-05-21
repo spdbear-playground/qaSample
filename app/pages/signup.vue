@@ -84,11 +84,11 @@ import Vue from "vue";
 import apiJobMixin from "@/mixins/apiJobMixin";
 export default Vue.extend({
   mixins: [apiJobMixin],
-  data() {
+  data(): { displayName: string; email: string; password: string } {
     return {
-      displayName: "" as string,
-      email: "" as string,
-      password: "" as string
+      displayName: "",
+      email: "",
+      password: ""
     };
   },
   methods: {

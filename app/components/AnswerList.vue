@@ -83,15 +83,19 @@ export default Vue.extend({
       type: String
     }
   },
-  data() {
+  data(): {
+    removeModalActive: boolean;
+    editModalActive: boolean;
+    answerTitle: string;
+  } {
     return {
-      removeModalActive: false as boolean,
-      editModalActive: false as boolean,
-      answerTitle: "" as string
+      removeModalActive: false,
+      editModalActive: false,
+      answerTitle: ""
     };
   },
   computed: {
-    isLoginUser() {
+    isLoginUser(): boolean {
       if (!this.$store.getters.user) return false;
       return this.$store.getters.user.id === this.answer.user.id;
     }
@@ -103,14 +107,14 @@ export default Vue.extend({
     toggleEditModal() {
       this.editModalActive = !this.editModalActive;
     },
-    removeAnswer(questionId, answerId) {
+    removeAnswer(questionId: string, answerId: string) {
       this.$store.dispatch("answer/removeAnswer", {
         questionId,
         answerId
       });
       this.toggleRemoveModal();
     },
-    updateAnswer(questionId, answerId, updateText) {
+    updateAnswer(questionId: string, answerId: string, updateText: string) {
       this.$store.dispatch("answer/updateAnswer", {
         questionId,
         answerId,

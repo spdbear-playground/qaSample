@@ -17,13 +17,13 @@
 import Vue from "vue";
 export default Vue.extend({
   computed: {
-    user() {
+    user(): { name: string; email: string } {
       if (this.$store.getters.user) {
         return this.$store.getters.user;
       }
       return {
-        name: "" as string,
-        email: "" as string
+        name: "",
+        email: ""
       };
     }
   },
