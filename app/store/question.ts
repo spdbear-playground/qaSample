@@ -15,7 +15,7 @@ export const mutations = {
 export const actions = {
   addQuestion(
     { commit, _state, dispatch }: any,
-    payload: { question: any; userId: any }
+    payload: { question: string; userId: string }
   ) {
     commit("setBusy", true, {
       root: true
@@ -45,7 +45,7 @@ export const actions = {
     const querySnapshot = await db.collection("questions").get();
 
     // 質問データをfetch
-    querySnapshot.forEach((doc: { id: any; data: () => any }) => {
+    querySnapshot.forEach((doc: { id: string; data: () => any }) => {
       questions.push({
         id: doc.id, // 質問ごとのID
         ...doc.data()
@@ -73,7 +73,7 @@ export const actions = {
   },
   async updateQuestion(
     { commit, _state, dispatch }: any,
-    payload: { id: any; updateText: any }
+    payload: { id: string; updateText: string }
   ) {
     const db = this.$fireApp.firestore();
     await db

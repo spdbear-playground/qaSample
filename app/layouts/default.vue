@@ -53,7 +53,7 @@ import { mapMutations } from "vuex";
 import Vue from "vue";
 export default Vue.extend({
   computed: {
-    isLogin() {
+    isLogin(): boolean {
       const loggedIn = this.$store.getters.loginStatus;
       if (loggedIn) {
         return true;
@@ -61,7 +61,7 @@ export default Vue.extend({
         return false;
       }
     },
-    userName() {
+    userName(): string {
       return this.$store.getters.user ? this.$store.getters.user.name : "";
     }
   },

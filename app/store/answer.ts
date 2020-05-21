@@ -11,7 +11,7 @@ export const mutations = {
 export const actions = {
   async addAnswer(
     { commit, _state, dispatch }: any,
-    payload: { questionId: any; answer: any; userId: any }
+    payload: { questionId: string; answer: string; userId: string }
   ) {
     commit("setBusy", true, { root: true });
     commit("clearError", null, { root: true });
@@ -72,7 +72,7 @@ export const actions = {
   },
   async updateAnswer(
     { commit, _state, dispatch }: any,
-    payload: { questionId: any; answerId: string | number; updateText: any }
+    payload: { questionId: string; answerId: string; updateText: string }
   ) {
     commit("setBusy", true, { root: true });
     commit("clearError", null, { root: true });
@@ -99,7 +99,7 @@ export const actions = {
   },
   async removeAnswer(
     { commit, _state, dispatch }: any,
-    payload: { questionId: any; answerId: string | number }
+    payload: { questionId: string; answerId: string }
   ) {
     commit("setBusy", true, { root: true });
     commit("clearError", null, { root: true });
