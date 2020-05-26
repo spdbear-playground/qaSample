@@ -51,6 +51,7 @@
 <script lang="ts">
 import { mapMutations } from "vuex";
 import Vue from "vue";
+import fireApp from "~/plugins/firebase";
 export default Vue.extend({
   computed: {
     isLogin(): boolean {
@@ -66,7 +67,7 @@ export default Vue.extend({
     }
   },
   created() {
-    this.$fireApp.auth().onAuthStateChanged(user => {
+    fireApp.auth().onAuthStateChanged(user => {
       if (user) {
         const authUser = {
           id: user.uid,

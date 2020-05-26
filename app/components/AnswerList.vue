@@ -3,9 +3,7 @@
     <strong>{{ answer.title }}</strong>
     <br />
     <small>{{ answer.user && answer.user.name }}</small>
-    <small>{{
-      this.$moment(answer.createdAt).format("YYYY.MM.DD - h:mm a")
-    }}</small>
+    <small>{{ createdatFormatted }}</small>
     <!-- ここに編集・削除ボタンが入る -->
     <span v-if="isLoginUser" class="level-left buttons">
       <a class="button is-small is-rounded" @click="toggleEditModal">編集</a>
@@ -74,6 +72,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import moment from "moment";
 export default Vue.extend({
   props: {
     answer: {
@@ -98,6 +97,10 @@ export default Vue.extend({
     isLoginUser(): boolean {
       if (!this.$store.getters.user) return false;
       return this.$store.getters.user.id === this.answer.user.id;
+    },
+
+    createdatFormatted(): string {
+      return moment(this.answer.createdAt).format("YYYY.MM.DD - h:mm a");
     }
   },
   methods: {

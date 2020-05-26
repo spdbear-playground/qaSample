@@ -44,7 +44,6 @@ export default {
   plugins: [
     "@/plugins/firebase",
     "@/plugins/vee-validate",
-    "@/plugins/moment",
     "@/plugins/uniqStr"
   ],
 

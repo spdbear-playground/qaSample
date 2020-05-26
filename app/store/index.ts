@@ -5,6 +5,8 @@ import {
   getterTree
 } from "typed-vuex";
 
+import fireApp from "~/plugins/firebase";
+
 // アプリケーションの状態（情報）
 // dataオプションのイメージに近い
 export const state = () => ({
@@ -69,10 +71,10 @@ export const actions = actionTree(
       let newUser = null;
       // 新規ユーザーの登録(firestoreのauth)
       // DBの呼び出し
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
       // injectを利用してfireAppを呼び出している
       // nuxt.config.js に書いたとおり
-      this.$fireApp
+      fireApp
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
@@ -121,7 +123,7 @@ export const actions = actionTree(
     loginUser({ commit }: any, payload: { email: any; password: any }) {
       commit("setBusy", true);
       commit("clearError");
-      this.$fireApp
+      fireApp
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
         .then((data: { user: { uid: any; email: any; displayName: any } }) => {
@@ -140,7 +142,7 @@ export const actions = actionTree(
         });
     },
     logOut({ commit }) {
-      this.$fireApp.auth().signOut();
+      fireApp.auth().signOut();
       commit("setUser", null);
     }
   }

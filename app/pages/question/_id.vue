@@ -10,11 +10,7 @@
                 {{ question.user && question.user.name }}
               </small>
               <small>
-                {{
-                  this.$moment(question.createdAt).format(
-                    "YYYY.MM.DD - hh:mm a"
-                  )
-                }}
+                {{ createdatFormatted }}
               </small>
             </p>
           </div>
@@ -68,6 +64,7 @@
 <script lang="ts">
 import apiJobMixin from "@/mixins/apiJobMixin";
 import AnswerList from "@/components/AnswerList.vue";
+import moment from "moment";
 import Vue from "vue";
 export default Vue.extend({
   components: {
@@ -92,6 +89,9 @@ export default Vue.extend({
     },
     allAnswers() {
       return this.$store.getters["answer/answersAll"];
+    },
+    createdatFormatted() {
+      return moment(this.question.createdAt).format("YYYY.MM.DD - hh:mm a");
     }
   },
   methods: {

@@ -13,9 +13,7 @@
           <p>
             <strong>@{{ question.user.name }}</strong>
             <small>
-              {{
-                this.$moment(question.createdAt).format("YYYY.MM.DD - h:mm a")
-              }}
+              {{ createdatFormatted }}
             </small>
           </p>
         </div>
@@ -94,6 +92,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import moment from "moment";
 export default Vue.extend({
   props: {
     question: {
@@ -118,6 +117,9 @@ export default Vue.extend({
         return false;
       }
       return this.$store.getters.user.id === this.question.user.id;
+    },
+    createdatFormatted(): string {
+      return moment(this.question.createdAt).format("YYYY.MM.DD - h:mm a");
     }
   },
   methods: {

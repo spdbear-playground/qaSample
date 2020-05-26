@@ -1,5 +1,6 @@
 import { mutationTree, actionTree, getterTree } from "typed-vuex";
-
+import fireApp from "~/plugins/firebase";
+import uniqStr from "~/plugins/uniqStr";
 export const state = () => ({
   answers: []
 });
@@ -25,11 +26,11 @@ export const actions = actionTree(
     ) {
       commit("setBusy", true, { root: true });
       commit("clearError", null, { root: true });
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
       // 質問を登録
       const answerRef = db.collection("answers").doc(payload.questionId);
       const pushData = {};
-      const uniqID = this.$uniqStr();
+      const uniqID = uniqStr();
       pushData[uniqID] = {
         id: uniqID,
         title: payload.answer,
@@ -46,7 +47,7 @@ export const actions = actionTree(
         .catch((error: any) => console.log(error));
     },
     async fetchAnswersAll({ commit, _state }: any, questionId: any) {
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
       // 登録した全データを取得
       const answers = [];
       await db
@@ -86,7 +87,7 @@ export const actions = actionTree(
     ) {
       commit("setBusy", true, { root: true });
       commit("clearError", null, { root: true });
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
 
       const docRef = await db.collection("answers").doc(payload.questionId);
       await docRef
@@ -113,7 +114,7 @@ export const actions = actionTree(
     ) {
       commit("setBusy", true, { root: true });
       commit("clearError", null, { root: true });
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
       const docRef = await db.collection("answers").doc(payload.questionId);
       await docRef
         .get()

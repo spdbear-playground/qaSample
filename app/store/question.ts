@@ -1,5 +1,5 @@
 import { mutationTree, actionTree, getterTree } from "typed-vuex";
-
+import fireApp from "~/plugins/firebase";
 export const state = () => ({
   questions: [], // すべての質問データを格納する配列
   question: {} // 1件の質問データ
@@ -36,7 +36,7 @@ export const actions = actionTree(
       commit("clearError", null, {
         root: true
       });
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
       const questionRef = db.collection("questions");
       questionRef
         .add({
@@ -51,7 +51,7 @@ export const actions = actionTree(
         });
     },
     async fetchQuestionsAll({ commit, _state }: any, _payload: any) {
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
 
       // 登録した全データを管理
       const questions = [];
@@ -88,7 +88,7 @@ export const actions = actionTree(
       { commit, _state, dispatch }: any,
       payload: { id: string; updateText: string }
     ) {
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
       await db
         .collection("questions")
         .doc(payload.id)
@@ -106,7 +106,7 @@ export const actions = actionTree(
     async removeQuestion({ commit, _state, dispatch }: any, payload: any) {
       commit("setBusy", true, { root: true });
       commit("clearError", null, { root: true });
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
       await db
         .collection("questions")
         .doc(payload)
@@ -128,7 +128,7 @@ export const actions = actionTree(
       dispatch("fetchQuestionsAll");
     },
     async fetchQuestion({ commit, _state }: any, questionId: any) {
-      const db = this.$fireApp.firestore();
+      const db = fireApp.firestore();
       const querySnapshot = await db
         .collection("questions")
         .doc(questionId)
