@@ -18,8 +18,8 @@ import Vue from "vue";
 export default Vue.extend({
   computed: {
     user(): { name: string; email: string } {
-      if (this.$store.getters.user) {
-        return this.$store.getters.user;
+      if (this.$accessor.user) {
+        return this.$accessor.user;
       }
       return {
         name: "",
@@ -29,7 +29,7 @@ export default Vue.extend({
   },
   methods: {
     logOut() {
-      this.$store.dispatch("logOut");
+      this.$accessor.logOut;
       this.$router.push("/");
     }
   }

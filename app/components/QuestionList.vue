@@ -113,10 +113,10 @@ export default Vue.extend({
   },
   computed: {
     isQuestionUser(): boolean {
-      if (!this.$store.getters.user) {
+      if (!this.$accessor.user) {
         return false;
       }
-      return this.$store.getters.user.id === this.question.user.id;
+      return this.$accessor.user.id === this.question.user.id;
     },
     createdatFormatted(): string {
       return moment(this.question.createdAt).format("YYYY.MM.DD - h:mm a");
@@ -131,14 +131,11 @@ export default Vue.extend({
       this.editModalActive = !this.editModalActive;
     },
     removeQuestion(id: string) {
-      this.$store.dispatch("question/removeQuestion", id);
+      this.$accessor.question.removeQuestion(id);
       this.toggleRemoveModal();
     },
     updateQuestion(id: string, updateText: string) {
-      this.$store.dispatch("question/updateQuestion", {
-        id,
-        updateText
-      });
+      this.$accessor.question.updateQuestion({ id, updateText });
       this.toggleEditModal();
     }
   }

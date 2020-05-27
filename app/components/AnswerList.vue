@@ -95,8 +95,8 @@ export default Vue.extend({
   },
   computed: {
     isLoginUser(): boolean {
-      if (!this.$store.getters.user) return false;
-      return this.$store.getters.user.id === this.answer.user.id;
+      if (!this.$accessor.user) return false;
+      return this.$accessor.user.id === this.answer.user.id;
     },
 
     createdatFormatted(): string {
@@ -111,18 +111,11 @@ export default Vue.extend({
       this.editModalActive = !this.editModalActive;
     },
     removeAnswer(questionId: string, answerId: string) {
-      this.$store.dispatch("answer/removeAnswer", {
-        questionId,
-        answerId
-      });
+      this.$accessor.answer.removeAnswer({ questionId, answerId });
       this.toggleRemoveModal();
     },
     updateAnswer(questionId: string, answerId: string, updateText: string) {
-      this.$store.dispatch("answer/updateAnswer", {
-        questionId,
-        answerId,
-        updateText
-      });
+      this.$accessor.answer.updateAnswer({ questionId, answerId, updateText });
       this.toggleEditModal();
     }
   }

@@ -85,20 +85,22 @@ export default Vue.extend({
   },
   computed: {
     question() {
-      return this.$store.getters["question/question"];
+      return this.$accessor.question.question;
     },
     allAnswers() {
-      return this.$store.getters["answer/answersAll"];
+      return this.$accessor.answer.answersAll;
     },
     createdatFormatted() {
-      return moment(this.question.createdAt).format("YYYY.MM.DD - hh:mm a");
+      return moment(this.$accessor.question.question.createdAt).format(
+        "YYYY.MM.DD - hh:mm a"
+      );
     }
   },
   methods: {
     onAnswer() {
-      this.$store.dispatch("answer/addAnswer", {
+      this.$accessor.answer.addAnswer({
         answer: this.answer,
-        userId: this.$store.getters.user.id,
+        userId: this.$accessor.user.id,
         questionId: this.question.id
       });
     },

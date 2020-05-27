@@ -67,17 +67,16 @@ export default Vue.extend({
   },
   computed: {
     allQuestions() {
-      return this.$store.getters["question/questionsAll"];
+      return this.$accessor.question.questionsAll;
     }
   },
   methods: {
     onQuestion() {
-      const userID = this.$store.getters.user.id;
       const payload = {
         question: this.question,
-        userId: userID
+        userId: this.$accessor.user.id
       };
-      this.$store.dispatch("question/addQuestion", payload);
+      this.$accessor.question.addQuestion(payload);
     },
     jobsDone() {
       console.log("job done");

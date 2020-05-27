@@ -118,7 +118,7 @@ export const actions = actionTree(
         });
       dispatch("fetchQuestionsAll");
     },
-    async removeQuestion({ commit, dispatch }, payload) {
+    async removeQuestion({ commit, dispatch }, payload: string) {
       commit("setBusy", true, { root: true });
       commit("clearError", null, { root: true });
       const db = fireApp.firestore();

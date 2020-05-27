@@ -100,7 +100,7 @@ export default Vue.extend({
             email: this.email,
             password: this.password
           };
-          this.$store.dispatch("signUpUser", signUpData);
+          this.$accessor.signUpUser(signUpData);
         }
       });
     },

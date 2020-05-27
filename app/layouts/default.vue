@@ -55,7 +55,7 @@ import fireApp from "~/plugins/firebase";
 export default Vue.extend({
   computed: {
     isLogin(): boolean {
-      const loggedIn = this.$store.getters.loginStatus;
+      const loggedIn = this.$accessor.loginStatus;
       if (loggedIn) {
         return true;
       } else {
@@ -63,7 +63,7 @@ export default Vue.extend({
       }
     },
     userName(): string {
-      return this.$store.getters.user ? this.$store.getters.user.name : "";
+      return this.$accessor.user ? this.$accessor.user.name : "";
     }
   },
   created() {

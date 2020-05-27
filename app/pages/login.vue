@@ -76,7 +76,7 @@ export default Vue.extend({
     };
   },
   beforeCreate() {
-    const loggedIn = this.$store.getters.loginStatus;
+    const loggedIn = this.$accessor.loginStatus;
     if (loggedIn) {
       this.$router.replace("/");
     }
@@ -89,7 +89,7 @@ export default Vue.extend({
             email: this.email,
             password: this.password
           };
-          this.$store.dispatch("loginUser", loginData);
+          this.$accessor.loginUser(loginData);
         }
       });
     },

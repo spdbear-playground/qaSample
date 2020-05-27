@@ -19,14 +19,14 @@ type userType = {
 };
 
 type stateType = () => {
-  user: null | userType;
+  user: userType;
   error: null | Error;
   busy: boolean;
   jobDone: boolean;
 };
 
 export const state: stateType = () => ({
-  user: null,
+  user: { id: "", createdAt: "", email: "", name: "" },
   error: null,
   busy: false,
   jobDone: false
@@ -56,7 +56,7 @@ export const getters = getterTree(state, {
 // 原則としてstateの更新はここだけで行う
 // すべて同期的な処理にする必要がある
 export const mutations = mutationTree(state, {
-  setUser(state, payload: userType | null) {
+  setUser(state, payload: userType) {
     state.user = payload;
   },
   setError(state, payload: Error) {
