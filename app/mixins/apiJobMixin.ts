@@ -3,21 +3,21 @@ export default Vue.extend({
   methods: {
     removeErrors() {
       this.$validator.reset();
-      this.$store.commit("clearError");
+      this.$accessor.clearError;
     }
   },
   computed: {
     error() {
-      return this.$store.getters.error;
+      return this.$accessor.error;
     },
     busy() {
-      return this.$store.getters.busy;
+      return this.$accessor.busy;
     },
     jobDone() {
-      return this.$store.getters.jobDone;
+      return this.$accessor.jobDone;
     },
     isLogin() {
-      const loggedIn = this.$store.getters.loginStatus;
+      const loggedIn = this.$accessor.loginStatus;
       if (loggedIn) {
         return true;
       } else {
@@ -28,7 +28,7 @@ export default Vue.extend({
   watch: {
     jobDone(value) {
       if (value) {
-        this.$store.commit("setJobDone", false);
+        this.$accessor.setJobDone(false);
         this.jobsDone();
       }
     }

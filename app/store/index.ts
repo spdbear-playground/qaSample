@@ -6,10 +6,26 @@ import {
 } from "typed-vuex";
 
 import fireApp from "~/plugins/firebase";
+import * as answer from "./answer";
+import * as question from "./question";
 
 // アプリケーションの状態（情報）
 // dataオプションのイメージに近い
-export const state = () => ({
+type userType = {
+  id: string;
+  createdAt: string;
+  email: string;
+  name: string;
+};
+
+type stateType = () => {
+  user: null | userType;
+  error: null | Error;
+  busy: boolean;
+  jobDone: boolean;
+};
+
+export const state: stateType = () => ({
   user: null,
   error: null,
   busy: false,
@@ -19,19 +35,19 @@ export const state = () => ({
 // stateの一部やstateから返された値を保持する
 // 算出プロパティ(computed) のイメージに近い
 export const getters = getterTree(state, {
-  user(state: { user: any }) {
+  user(state) {
     return state.user;
   },
-  loginStatus(state: { user: null | undefined }) {
+  loginStatus(state) {
     return state.user !== null && state.user !== undefined;
   },
-  error(state: { error: any }) {
+  error(state) {
     return state.error;
   },
-  busy(state: { busy: any }) {
+  busy(state) {
     return state.busy;
   },
-  jobDone(state: { jobDone: any }) {
+  jobDone(state) {
     return state.jobDone;
   }
 });
@@ -40,19 +56,19 @@ export const getters = getterTree(state, {
 // 原則としてstateの更新はここだけで行う
 // すべて同期的な処理にする必要がある
 export const mutations = mutationTree(state, {
-  setUser(state: { user: any }, payload: any) {
+  setUser(state, payload: userType | null) {
     state.user = payload;
   },
-  setError(state: { error: any }, payload: any) {
+  setError(state, payload: Error) {
     state.error = payload;
   },
-  clearError(state: { error: null }) {
+  clearError(state) {
     state.error = null;
   },
-  setBusy(state: { busy: any }, payload: any) {
+  setBusy(state, payload: boolean) {
     state.busy = payload;
   },
-  setJobDone(state: { jobDone: any }, payload: any) {
+  setJobDone(state, payload: boolean) {
     state.jobDone = payload;
   }
 });
@@ -63,12 +79,12 @@ export const actions = actionTree(
   { state, getters, mutations },
   {
     signUpUser(
-      { commit }: any,
-      payload: { email: any; password: any; displayName: any }
+      { commit },
+      payload: { email: string; password: string; displayName: string }
     ) {
       commit("setBusy", true);
       commit("clearError");
-      let newUser = null;
+      let newUser: firebase.User | null = null;
       // 新規ユーザーの登録(firestoreのauth)
       // DBの呼び出し
       const db = fireApp.firestore();
@@ -77,66 +93,54 @@ export const actions = actionTree(
       fireApp
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(
-          (data: {
-            user: {
-              updateProfile: (arg0: { displayName: any }) => Promise<any>;
-              uid: any;
-              email: any;
-              displayName: any;
-            } | null;
-          }) => {
-            newUser = data.user;
-            // ここでアカウント名(displayName)を登録
-            return data.user
-              .updateProfile({
-                displayName: payload.displayName
-              })
-              .then(() => {
-                const authUser = {
-                  id: data.user.uid,
-                  email: data.user.email,
-                  name: data.user.displayName
-                };
-                // サインアップ処理の終了をmutationに伝える
-                commit("setUser", authUser);
-                commit("setJobDone", true);
-                commit("setBusy", false);
-              });
-          }
-        )
+        .then(async data => {
+          newUser = data.user;
+          // ここでアカウント名(displayName)を登録
+          await data.user?.updateProfile({
+            displayName: payload.displayName
+          });
+          const authUser = {
+            id: data.user?.uid,
+            email: data.user?.email,
+            name: data.user?.displayName
+          };
+          // サインアップ処理の終了をmutationに伝える
+          commit("setUser", authUser);
+          commit("setJobDone", true);
+          commit("setBusy", false);
+        })
         .then(() => {
           // ユーザーをデータベース(Firestore)に登録
           // (主にデータ⽤)
-          const userRef = db.collection("users").doc(newUser.uid); // ここでしかnewUser使ってないの謎
+          const userRef = db.collection("users").doc(newUser?.uid); // ここでしかnewUser使ってないの謎
           return userRef.set({
             email: payload.email,
             name: payload.displayName,
             createdAt: new Date().toISOString()
           });
         })
-        .catch((error: any) => {
+        .catch((error: Error) => {
           commit("setBusy", false);
           commit("setError", error);
         });
     },
-    loginUser({ commit }: any, payload: { email: any; password: any }) {
+    loginUser({ commit }: any, payload: { email: string; password: string }) {
       commit("setBusy", true);
       commit("clearError");
       fireApp
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
-        .then((data: { user: { uid: any; email: any; displayName: any } }) => {
+        .then(data => {
           const authUser = {
-            id: data.user.uid,
-            email: data.user.email,
-            name: data.user.displayName
+            id: data.user?.uid,
+            email: data.user?.email,
+            name: data.user?.displayName
           };
           commit("setUser", authUser);
           commit("setJobDone", true);
           commit("setBusy", false);
         })
-        .catch((error: any) => {
+        .catch((error: Error) => {
           commit("setBusy", false);
           commit("setError", error);
         });
@@ -152,5 +156,9 @@ export const accessorType = getAccessorType({
   state,
   mutations,
   actions,
-  getters
+  getters,
+  modules: {
+    question,
+    answer
+  }
 });

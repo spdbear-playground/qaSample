@@ -1,24 +1,39 @@
 import { mutationTree, actionTree, getterTree } from "typed-vuex";
 import fireApp from "~/plugins/firebase";
-export const state = () => ({
+
+type QuestionType = {
+  createdAt: string;
+  id: string;
+  title: string;
+  userRef: firebase.firestore.DocumentReference<
+    firebase.firestore.DocumentData
+  >;
+};
+
+type StateType = () => {
+  questions: QuestionType[];
+  question: QuestionType;
+};
+
+export const state: StateType = () => ({
   questions: [], // すべての質問データを格納する配列
-  question: {} // 1件の質問データ
+  question: { createdAt: "", title: "", userRef: "" } // 1件の質問データ
 });
 
 export const getters = getterTree(state, {
-  questionsAll(state: { questions: any }) {
+  questionsAll(state) {
     return state.questions;
   },
-  question(state: { question: any }) {
+  question(state) {
     return state.question;
   }
 });
 
 export const mutations = mutationTree(state, {
-  setQuestionsAll(state: { questions: any }, payload: any) {
+  setQuestionsAll(state, payload: QuestionType[]) {
     state.questions = payload;
   },
-  setQuestion(state: { question: any }, payload: any) {
+  setQuestion(state, payload: QuestionType) {
     state.question = payload;
   }
 });
@@ -27,7 +42,7 @@ export const actions = actionTree(
   { state, getters, mutations },
   {
     addQuestion(
-      { commit, _state, dispatch }: any,
+      { commit, dispatch },
       payload: { question: string; userId: string }
     ) {
       commit("setBusy", true, {
@@ -50,15 +65,15 @@ export const actions = actionTree(
           commit("setJobDone", true, { root: true });
         });
     },
-    async fetchQuestionsAll({ commit, _state }: any, _payload: any) {
+    async fetchQuestionsAll({ commit }, _payload) {
       const db = fireApp.firestore();
 
       // 登録した全データを管理
-      const questions = [];
+      const questions: QuestionType[] = [];
       const querySnapshot = await db.collection("questions").get();
 
       // 質問データをfetch
-      querySnapshot.forEach((doc: { id: string; data: () => any }) => {
+      querySnapshot.forEach(doc => {
         questions.push({
           id: doc.id, // 質問ごとのID
           ...doc.data()
@@ -66,7 +81,7 @@ export const actions = actionTree(
       });
 
       // storeのデータを作成
-      const storeData = [];
+      const storeData: QuestionType[] = [];
       for (let i = 0; i < questions.length; i++) {
         const q = questions[i];
         // リレーションデータの取得
@@ -85,7 +100,7 @@ export const actions = actionTree(
       commit("setQuestionsAll", storeData);
     },
     async updateQuestion(
-      { commit, _state, dispatch }: any,
+      { commit, dispatch },
       payload: { id: string; updateText: string }
     ) {
       const db = fireApp.firestore();
@@ -103,7 +118,7 @@ export const actions = actionTree(
         });
       dispatch("fetchQuestionsAll");
     },
-    async removeQuestion({ commit, _state, dispatch }: any, payload: any) {
+    async removeQuestion({ commit, dispatch }, payload) {
       commit("setBusy", true, { root: true });
       commit("clearError", null, { root: true });
       const db = fireApp.firestore();
@@ -127,22 +142,22 @@ export const actions = actionTree(
         });
       dispatch("fetchQuestionsAll");
     },
-    async fetchQuestion({ commit, _state }: any, questionId: any) {
+    async fetchQuestion({ commit }, questionId: string) {
       const db = fireApp.firestore();
       const querySnapshot = await db
         .collection("questions")
         .doc(questionId)
         .get();
       // リレーションのユーザデータを取得
-      const userQuerySnapshot = await querySnapshot.data().userRef.get();
+      const userQuerySnapshot = await querySnapshot.data()?.userRef.get();
       // ユーザーIDを取得
-      const userID = await querySnapshot.data().userRef.id;
+      const userID = await querySnapshot.data()?.userRef.id;
 
       // 1件の質問データをmutationsにコミット
       commit("setQuestion", {
-        title: querySnapshot.data().title,
+        title: querySnapshot.data()?.title,
         id: questionId,
-        createdAt: querySnapshot.data().createdAt,
+        createdAt: querySnapshot.data()?.createdAt,
         user: {
           ...userQuerySnapshot.data(),
           id: userID
